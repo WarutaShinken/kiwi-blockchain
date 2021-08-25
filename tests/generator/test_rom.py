@@ -1,24 +1,23 @@
-import pytest
 from clvm_tools import binutils
 from clvm_tools.clvmc import compile_clvm_text
 
-from chia.full_node.generator import run_generator
-from chia.full_node.mempool_check_conditions import get_name_puzzle_conditions
-from chia.types.blockchain_format.program import Program, SerializedProgram
-from chia.types.blockchain_format.sized_bytes import bytes32
-from chia.types.condition_with_args import ConditionWithArgs
-from chia.types.name_puzzle_condition import NPC
-from chia.types.generator_types import BlockGenerator, GeneratorArg
-from chia.util.clvm import int_to_bytes
-from chia.util.condition_tools import ConditionOpcode
-from chia.util.ints import uint32
-from chia.wallet.puzzles.load_clvm import load_clvm
+from kiwi.full_node.generator import run_generator
+from kiwi.full_node.mempool_check_conditions import get_name_puzzle_conditions
+from kiwi.types.blockchain_format.program import Program, SerializedProgram
+from kiwi.types.blockchain_format.sized_bytes import bytes32
+from kiwi.types.condition_with_args import ConditionWithArgs
+from kiwi.types.name_puzzle_condition import NPC
+from kiwi.types.generator_types import BlockGenerator, GeneratorArg
+from kiwi.util.clvm import int_to_bytes
+from kiwi.util.condition_tools import ConditionOpcode
+from kiwi.util.ints import uint32
+from kiwi.wallet.puzzles.load_clvm import load_clvm
 
 MAX_COST = int(1e15)
 COST_PER_BYTE = int(12000)
 
 
-DESERIALIZE_MOD = load_clvm("chialisp_deserialisation.clvm", package_or_requirement="chia.wallet.puzzles")
+DESERIALIZE_MOD = load_clvm("chialisp_deserialisation.clvm", package_or_requirement="kiwi.wallet.puzzles")
 
 
 GENERATOR_CODE = """
@@ -94,17 +93,14 @@ class TestROM:
         assert cost == EXPECTED_ABBREVIATED_COST
         assert r.as_bin().hex() == EXPECTED_OUTPUT
 
-    @pytest.mark.parametrize("rust_checker", [True, False])
-    def test_get_name_puzzle_conditions(self, rust_checker: bool):
+    def test_get_name_puzzle_conditions(self):
         # this tests that extra block or coin data doesn't confuse `get_name_puzzle_conditions`
 
         gen = block_generator()
         cost, r = run_generator(gen, max_cost=MAX_COST)
         print(r)
 
-        npc_result = get_name_puzzle_conditions(
-            gen, max_cost=MAX_COST, cost_per_byte=COST_PER_BYTE, safe_mode=False, rust_checker=rust_checker
-        )
+        npc_result = get_name_puzzle_conditions(gen, max_cost=MAX_COST, cost_per_byte=COST_PER_BYTE, safe_mode=False)
         assert npc_result.error is None
         assert npc_result.clvm_cost == EXPECTED_COST
         cond_1 = ConditionWithArgs(ConditionOpcode.CREATE_COIN, [bytes([0] * 31 + [1]), int_to_bytes(500)])

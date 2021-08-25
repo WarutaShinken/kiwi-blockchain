@@ -28,7 +28,7 @@ jobs:
     steps:
     - name: Cancel previous runs on the same branch
       if: ${{ github.ref != 'refs/heads/main' }}
-      uses: styfle/cancel-workflow-action@0.9.1
+      uses: styfle/cancel-workflow-action@0.9.0
       with:
         access_token: ${{ github.token }}
 
@@ -41,13 +41,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Create keychain for CI use
-      run: |
-        security create-keychain -p foo chiachain
-        security default-keychain -s chiachain
-        security unlock-keychain -p foo chiachain
-        security set-keychain-settings -t 7200 -u chiachain
 
     - name: Get pip cache dir
       id: pip-cache
@@ -68,9 +61,9 @@ jobs:
     - name: Link home directory
       run: |
         cd $HOME
-        ln -s $GITHUB_WORKSPACE/.chia
-        echo "$HOME/.chia"
-        ls -al $HOME/.chia
+        ln -s $GITHUB_WORKSPACE/.kiwi
+        echo "$HOME/.kiwi"
+        ls -al $HOME/.kiwi
 
     - name: Run install script
       env:
@@ -90,7 +83,7 @@ jobs:
     - name: Test clvm code with pytest
       run: |
         . ./activate
-        ./venv/bin/py.test tests/clvm/test_chialisp_deserialization.py tests/clvm/test_clvm_compilation.py tests/clvm/test_puzzles.py tests/clvm/test_serialized_program.py tests/clvm/test_singletons.py tests/clvm/test_spend_sim.py -s -v --durations 0 -n auto
+        ./venv/bin/py.test tests/clvm/test_chialisp_deserialization.py tests/clvm/test_clvm_compilation.py tests/clvm/test_puzzles.py tests/clvm/test_serialized_program.py tests/clvm/test_singletons.py -s -v --durations 0 -n auto
 #
 # THIS FILE IS GENERATED. SEE https://github.com/Chia-Network/chia-blockchain/tree/main/tests#readme
 #

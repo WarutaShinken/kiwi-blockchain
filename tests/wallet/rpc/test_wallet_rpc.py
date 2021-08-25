@@ -1,23 +1,23 @@
 import asyncio
-from chia.util.config import load_config, save_config
+from kiwi.util.config import load_config, save_config
 import logging
 from pathlib import Path
 
 import pytest
 
-from chia.consensus.block_rewards import calculate_base_farmer_reward, calculate_pool_reward
-from chia.rpc.full_node_rpc_api import FullNodeRpcApi
-from chia.rpc.full_node_rpc_client import FullNodeRpcClient
-from chia.rpc.rpc_server import start_rpc_server
-from chia.rpc.wallet_rpc_api import WalletRpcApi
-from chia.rpc.wallet_rpc_client import WalletRpcClient
-from chia.simulator.simulator_protocol import FarmNewBlockProtocol
-from chia.types.peer_info import PeerInfo
-from chia.util.bech32m import encode_puzzle_hash
-from chia.consensus.coinbase import create_puzzlehash_for_pk
-from chia.wallet.derive_keys import master_sk_to_wallet_sk
-from chia.util.ints import uint16, uint32
-from chia.wallet.transaction_record import TransactionRecord
+from kiwi.consensus.block_rewards import calculate_base_farmer_reward, calculate_pool_reward
+from kiwi.rpc.full_node_rpc_api import FullNodeRpcApi
+from kiwi.rpc.full_node_rpc_client import FullNodeRpcClient
+from kiwi.rpc.rpc_server import start_rpc_server
+from kiwi.rpc.wallet_rpc_api import WalletRpcApi
+from kiwi.rpc.wallet_rpc_client import WalletRpcClient
+from kiwi.simulator.simulator_protocol import FarmNewBlockProtocol
+from kiwi.types.peer_info import PeerInfo
+from kiwi.util.bech32m import encode_puzzle_hash
+from kiwi.consensus.coinbase import create_puzzlehash_for_pk
+from kiwi.wallet.derive_keys import master_sk_to_wallet_sk
+from kiwi.util.ints import uint16, uint32
+from kiwi.wallet.transaction_record import TransactionRecord
 from tests.setup_nodes import bt, setup_simulators_and_wallets, self_hostname
 from tests.time_out_assert import time_out_assert
 
@@ -247,12 +247,12 @@ class TestWalletRpc:
 
             # Add in reward addresses into farmer and pool for testing delete key checks
             # set farmer to first private key
-            sk = await wallet_node.get_key_for_fingerprint(pks[0])
+            sk = wallet_node.get_key_for_fingerprint(pks[0])
             test_ph = create_puzzlehash_for_pk(master_sk_to_wallet_sk(sk, uint32(0)).get_g1())
             test_config = load_config(wallet_node.root_path, "config.yaml")
             test_config["farmer"]["xch_target_address"] = encode_puzzle_hash(test_ph, "txch")
             # set pool to second private key
-            sk = await wallet_node.get_key_for_fingerprint(pks[1])
+            sk = wallet_node.get_key_for_fingerprint(pks[1])
             test_ph = create_puzzlehash_for_pk(master_sk_to_wallet_sk(sk, uint32(0)).get_g1())
             test_config["pool"]["xch_target_address"] = encode_puzzle_hash(test_ph, "txch")
             save_config(wallet_node.root_path, "config.yaml", test_config)

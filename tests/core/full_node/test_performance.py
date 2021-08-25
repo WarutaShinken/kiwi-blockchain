@@ -9,14 +9,14 @@ from typing import Dict
 import pytest
 import cProfile
 
-from chia.consensus.block_record import BlockRecord
-from chia.full_node.full_node_api import FullNodeAPI
-from chia.protocols import full_node_protocol as fnp
-from chia.types.condition_opcodes import ConditionOpcode
-from chia.types.condition_with_args import ConditionWithArgs
-from chia.types.unfinished_block import UnfinishedBlock
-from chia.util.clvm import int_to_bytes
-from chia.util.ints import uint64
+from kiwi.consensus.block_record import BlockRecord
+from kiwi.full_node.full_node_api import FullNodeAPI
+from kiwi.protocols import full_node_protocol as fnp
+from kiwi.types.condition_opcodes import ConditionOpcode
+from kiwi.types.condition_with_args import ConditionWithArgs
+from kiwi.types.unfinished_block import UnfinishedBlock
+from kiwi.util.clvm import int_to_bytes
+from kiwi.util.ints import uint64
 from tests.wallet_tools import WalletTool
 from tests.core.fixtures import empty_blockchain  # noqa: F401
 
@@ -143,6 +143,7 @@ class TestPerformance:
         start = time.time()
         num_tx: int = 0
         for spend_bundle, spend_bundle_id in zip(spend_bundles, spend_bundle_ids):
+            log.warning(f"Num Tx: {num_tx}")
             num_tx += 1
             respond_transaction = fnp.RespondTransaction(spend_bundle)
 
@@ -153,7 +154,6 @@ class TestPerformance:
 
             if req is None:
                 break
-        log.warning(f"Num Tx: {num_tx}")
         log.warning(f"Time for mempool: {time.time() - start}")
         pr.create_stats()
         pr.dump_stats("./mempool-benchmark.pstats")

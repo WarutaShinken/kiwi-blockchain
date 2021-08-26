@@ -8,8 +8,8 @@ from kiwi.util.bech32m import decode_puzzle_hash, encode_puzzle_hash
 from kiwi.util.condition_tools import parse_sexp_to_conditions
 from kiwi.util.ints import uint32
 
-address1 = "xkw1jl56rctm77uuml0pafplz7xt0nugwfw4xsv7emkcqldepndhqe4s4j842q"  # Gene wallet (m/12381/8444/2/42):
-address2 = "xkw1vpns96wplxkgv2hwgcugdckzpyc3fvjhx0raf8pqt4j4c978anas7amj38"  # Mariano address (m/12381/8444/2/0)
+address1 = "xkw1f7xpksxdslqzt2mymy83g7evzpnkxv9llrmna95sjcjp2ktf5enqmm3eyk"  # Gene wallet (m/12381/8444/2/42):
+address2 = "xkw13thpmc6kfef6p8lcwmrsq0465nvlghrlmedqgjh8dfs0mmugrk8q62jv5c"  # Mariano address (m/12381/8444/2/0)
 
 ph1 = decode_puzzle_hash(address1)
 ph2 = decode_puzzle_hash(address2)
@@ -30,7 +30,7 @@ def make_puzzle(amount: int) -> int:
     puzzle_hash = puzzle_prog.get_tree_hash()
 
     solution = "()"
-    prefix = "xch"
+    prefix = "xkw"
     print("PH", puzzle_hash)
     print(f"Address: {encode_puzzle_hash(puzzle_hash, prefix)}")
 

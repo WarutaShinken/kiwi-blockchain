@@ -1,8 +1,6 @@
 [submodule "kiwi-blockchain-gui"]
 	path = kiwi-blockchain-gui
-	url = https://github.com/KiwiNetworkOrg/kiwi-blockchain-gui
-	branch = main
+	url = https://github.com/WarutaShinken/kiwi-blockchain-gui
 [submodule "mozilla-ca"]
 	path = mozilla-ca
-	url = https://github.com/KiwiNetworkOrg/mozilla-ca.git
-  branch = main
+	url = https://github.com/WarutaShinken/kiwi-blockchain-mozilla-ca

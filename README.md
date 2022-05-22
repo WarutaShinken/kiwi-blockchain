@@ -1,3 +1,22 @@
+# Kiwi Preservation Effort
+
+Part of the Zombie Forks effort. Check out our [Discord server](https://discord.gg/wCQAT7zK) for more info.
+
+## Peers
+
+```
+kiwi show -a 180.156.228.134:38746
+kiwi show -a 213.47.31.179:38746
+kiwi show -a 72.66.73.110:38746
+kiwi show -a 162.255.13.151:38746
+kiwi show -a 119.65.193.131:38746
+kiwi show -a 174.88.130.58:38746
+kiwi show -a 202.153.222.37:38746
+kiwi show -a 213.112.131.42:38746
+```
+
+Kiwi has trouble staying connected to other nodes, so be sure to run `kiwi show -c` every now and then to see if you're still connected.
+
 # kiwi-blockchain
 
 ![Alt text](https://kiwinetwork.org/img/kiwi-logo.svg)

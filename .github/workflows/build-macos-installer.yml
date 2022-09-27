@@ -116,7 +116,7 @@ jobs:
         echo "::set-output name=KIWI_INSTALLER_VERSION::$(kiwi version)"
 
     - name: Upload MacOS artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.0
       with:
         name: Kiwi-Installer-on-MacOS-10.15-dmg
         path: ${{ github.workspace }}/build_scripts/final_installer/
